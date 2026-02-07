@@ -44,20 +44,20 @@ export function UseCases() {
         <p className="text-slate-600 dark:text-slate-400">Tailored solutions for every stage of business growth.</p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="flex flex-wrap justify-center gap-4 mb-12 relative z-10">
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => setActiveTab(cat.id as any)}
             className={cn(
-              "flex items-center gap-2 px-6 py-3 rounded-full border transition-all duration-300",
+              "flex items-center gap-2 px-6 py-3 rounded-full border font-bold text-sm transition-all duration-300 active:scale-95",
               activeTab === cat.id 
-                ? "bg-primary-500 border-primary-500 text-white shadow-lg shadow-primary-500/25" 
-                : "bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-primary-500 border-primary-500 text-white shadow-[0_8px_16px_rgba(30,144,255,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.3)]" 
+                : "bg-white/50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.03),inset_0_1.5px_0_rgba(255,255,255,0.1)]"
             )}
           >
-            <cat.icon size={18} />
-            <span className="font-medium">{cat.label}</span>
+            <cat.icon size={18} className={cn("transition-transform duration-300", activeTab === cat.id && "scale-110")} />
+            <span>{cat.label}</span>
           </button>
         ))}
       </div>

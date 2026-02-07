@@ -45,6 +45,11 @@ function getThumbnailGradient(category: string): string {
   }
 }
 
+// Category Banners mapping
+const categoryBanners: Record<string, string> = {
+  'Web Platforms': '/web-banner.png',
+};
+
 // Format date to relative time
 function formatUpdatedAt(dateString: string): string {
   const date = new Date(dateString);
@@ -354,12 +359,23 @@ export function ProjectsPage() {
                 <div className="h-full flex flex-col bg-white dark:bg-[#0d1117] border border-slate-300 dark:border-[#30363d] rounded-xl overflow-hidden hover:border-primary-500 dark:hover:border-primary-500 transition-colors group">
                   
                   {/* Thumbnail Area */}
-                  <div className={`h-32 w-full ${project.thumbnail} relative flex items-center justify-center overflow-hidden`}>
-                     <div className="absolute inset-0 bg-black/10"></div>
-                     <div className="font-bold text-white/90 text-xl tracking-widest uppercase opacity-30 group-hover:opacity-50 transition-opacity transform group-hover:scale-110 duration-500">
-                        {project.category.split(' ')[0]}
-                     </div>
-                     <ExternalLink className="absolute top-3 right-3 text-white/50 group-hover:text-white/80 transition-colors" size={18} />
+                  <div className={`h-36 w-full ${project.thumbnail} relative flex items-center justify-center overflow-hidden border-b border-slate-200 dark:border-[#30363d]`}>
+                     {categoryBanners[project.category] ? (
+                       <img 
+                         src={categoryBanners[project.category]} 
+                         alt={project.title} 
+                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                       />
+                     ) : (
+                       <>
+                         <div className="absolute inset-0 bg-black/10"></div>
+                         <div className="font-bold text-white/90 text-xl tracking-widest uppercase opacity-30 group-hover:opacity-50 transition-opacity transform group-hover:scale-110 duration-500">
+                           {project.category.split(' ')[0]}
+                         </div>
+                       </>
+                     )}
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                     <ExternalLink className="absolute top-3 right-3 text-white/70 group-hover:text-white transition-colors drop-shadow-md" size={18} />
                   </div>
 
                   <div className="p-5 flex flex-col flex-grow">

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { SectionWrapper } from '../components/layout/SectionWrapper';
-import { Button } from '../components/ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, GitFork, ExternalLink, Loader2, Code2, Sparkles, Box, Search, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -14,20 +13,6 @@ const categoryIcons: Record<string, typeof Code2> = {
   'AI Systems': Sparkles,
   'Web3': Box,
   'Web Platforms': Code2,
-};
-
-// Category to Gradient mapping
-const categoryGradients: Record<string, string> = {
-  'AI Systems': 'from-blue-500/20 to-indigo-500/20 border-blue-500/20 group-hover:border-blue-500/40',
-  'Web3': 'from-purple-500/20 to-fuchsia-500/20 border-purple-500/20 group-hover:border-purple-500/40',
-  'Web Platforms': 'from-emerald-500/20 to-teal-500/20 border-emerald-500/20 group-hover:border-emerald-500/40',
-};
-
-// Category to Glow mapping
-const categoryGlows: Record<string, string> = {
-  'AI Systems': 'group-hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]',
-  'Web3': 'group-hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]',
-  'Web Platforms': 'group-hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
 };
 
 // Language colors
@@ -230,8 +215,6 @@ export function Projects() {
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => {
               const Icon = categoryIcons[project.category] || Code2;
-              const Gradient = categoryGradients[project.category] || 'from-slate-500/20 to-slate-600/20 border-slate-500/20';
-              const Glow = categoryGlows[project.category] || 'group-hover:shadow-[0_0_30px_rgba(0,0,0,0.1)]';
 
               return (
                 <motion.div
@@ -248,50 +231,58 @@ export function Projects() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "group block h-full relative p-8 rounded-3xl bg-white/60 dark:bg-base-dark/60 backdrop-blur-xl border border-white/40 dark:border-white/10 transition-all duration-500",
-                      Glow
+                      "group block h-full relative p-8 rounded-2xl bg-white/10 dark:bg-white/[0.03] backdrop-blur-2xl border border-slate-200/50 dark:border-white/10 transition-all duration-300",
+                      project.category === 'AI Systems' ? 'hover:border-blue-500/50 hover:bg-blue-500/[0.05]' : 
+                      project.category === 'Web3' ? 'hover:border-purple-500/50 hover:bg-purple-500/[0.05]' : 
+                      'hover:border-emerald-500/50 hover:bg-emerald-500/[0.05]'
                     )}
                   >
-                    {/* Floating Glow */}
-                    <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br rounded-3xl -z-10", Gradient)} />
-                    
-                    <div className="flex justify-between items-start mb-8">
-                      <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/10 flex items-center justify-center shadow-lg border border-slate-100 dark:border-white/5 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3">
-                        <Icon className="text-primary-500" size={28} />
+                    {/* Card Content */}
+                    <div className="relative z-10 flex justify-between items-start mb-8">
+                      <div className={cn(
+                        "w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 border shadow-sm",
+                        project.category === 'AI Systems' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500 group-hover:bg-blue-500 group-hover:text-white' : 
+                        project.category === 'Web3' ? 'bg-purple-500/10 border-purple-500/20 text-purple-500 group-hover:bg-purple-500 group-hover:text-white' : 
+                        'bg-emerald-500/10 border-emerald-500/20 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white'
+                      )}>
+                        <Icon size={24} />
                       </div>
-                      <div className="flex gap-3">
-                        <div className="flex items-center gap-1.5 px-3 py-1 bg-primary-500/10 rounded-full text-primary-600 dark:text-primary-400 text-xs font-bold ring-1 ring-primary-500/20">
-                          <Star size={12} fill="currentColor" />
+                      <div className="flex gap-2">
+                        <div className="flex items-center gap-1 px-2 py-0.5 bg-white/5 rounded-md text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-tighter border border-white/10">
+                          <Star size={10} fill="currentColor" className="text-amber-500" />
                           <span>{project.stars}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mb-8">
-                       <span className="text-xs font-bold text-primary-500/70 uppercase tracking-widest mb-2 block">{project.category}</span>
-                       <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-primary-500 transition-colors leading-tight">
+                    <div className="relative z-10 mb-8">
+                       <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary-500 transition-colors leading-tight tracking-tight">
                         {project.title}
                        </h3>
-                       <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed line-clamp-3">
+                       <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed line-clamp-3 font-normal">
                         {project.description}
                        </p>
                     </div>
 
-                    <div className="flex items-center justify-between mt-auto">
-                       <div className="flex items-center gap-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+                    <div className="relative z-10 flex items-center justify-between mt-auto pt-6 border-t border-slate-100 dark:border-white/5">
+                       <div className="flex items-center gap-4 text-[10px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-tight">
                           {project.language && (
                             <div className="flex items-center gap-1.5">
-                               <span className={cn("w-2.5 h-2.5 rounded-full shadow-sm", languageColors[project.language] || 'bg-slate-400')} />
+                               <span className={cn("w-2 h-2 rounded-full", languageColors[project.language] || 'bg-slate-400')} />
                                <span>{project.language}</span>
                             </div>
                           )}
                           <div className="flex items-center gap-1">
-                             <GitFork size={13} />
+                             <GitFork size={11} strokeWidth={2.5} />
                              <span>{project.forks}</span>
                           </div>
                        </div>
-                       <div className="w-10 h-10 rounded-full bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-4 group-hover:translate-x-0">
-                          <ExternalLink size={18} />
+                       <div className={cn(
+                         "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 transform translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 shadow-lg",
+                         project.category === 'AI Systems' ? 'bg-blue-500 text-white' : 
+                         project.category === 'Web3' ? 'bg-purple-500 text-white' : 'bg-emerald-500 text-white'
+                       )}>
+                          <ExternalLink size={14} strokeWidth={2.5} />
                        </div>
                     </div>
                   </a>
@@ -304,10 +295,17 @@ export function Projects() {
 
       <div className="text-center relative z-10">
          <Link to="/projects">
-            <Button variant="secondary" size="lg" className="rounded-full shadow-lg hover:shadow-primary-500/10 transition-all group px-10">
+            <button className="relative py-3 px-8 rounded-full font-bold text-sm transition-all duration-300
+              bg-primary-500 text-white
+              shadow-[0_8px_16px_rgba(30,144,255,0.2),inset_0_-2px_4px_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.3)]
+              hover:shadow-[0_12px_24px_rgba(30,144,255,0.3),inset_0_-1px_2px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.3)]
+              active:shadow-[inset_0_4px_8px_rgba(0,0,0,0.3)]
+              active:translate-y-0.5
+              flex items-center justify-center gap-2 mx-auto group"
+            >
               Explore Portfolio
-              <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
+              <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
          </Link>
       </div>
     </SectionWrapper>
