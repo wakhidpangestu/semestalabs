@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --base-light-rgb: 245, 247, 251; /* #f5f7fb */
+  --base-dark-rgb: 10, 15, 28;    /* #0a0f1c */
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+body {
+    @apply md:pb-0; 
+}
+
+@layer utilities {
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* Modern Theme Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f7fb;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0a0f1c;
+}
+
+/* Light Mode: Primary Blue with low opacity */
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 144, 255, 0.3); /* primary-500 #1e90ff */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 144, 255, 0.5);
+}
+
+/* Dark Mode: Primary Blue with adjusted opacity */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(30, 144, 255, 0.25);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 144, 255, 0.45);
+}
